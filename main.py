@@ -4,8 +4,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-openai.api_key = "emirGottenYemis"
-
+openai.api_key = "lalaylaylay"
 # Gmail credentials
 gmail_user = "yummymass2024@gmail.com"
 gmail_password = "wotn xjwk zjhf rewr"
@@ -26,12 +25,9 @@ def get_filtered_foods(email, meal_type, location):
     allergens = allergens_str.split(", ")
     favorite_food_list = favorite_foods.split(", ")
 
-    # Choose the table based on the dining location
-    table = location.lower()  # Location should be one of 'berkshire', 'worcester', 'franklin', or 'hampshire'
-
     # Query foods for the specified meal_type based on diet_info and allergens
     cursor.execute(f"""
-        SELECT food_name FROM {table}
+        SELECT food_name FROM {location}
         WHERE meal_type = ? AND diet_info LIKE ?
         AND NOT (
             """ + " OR ".join([f"allergens LIKE ?" for _ in allergens]) + """
@@ -82,8 +78,8 @@ def send_food_recommendation(recipient_email, user_name, dietary_info, favorite_
     # Define meal types based on location
     def get_meal_types(location):
         if location.lower() in ["franklin", "hampshire"]:
-            return ["Lunch", "Dinner"]  # No Late Night for Franklin and Hampshire
-        return ["Lunch", "Dinner", "Late Night"]  # All meal types for other locations
+            return ["Lunch", "Dinner"]
+        return ["Lunch", "Dinner", "Late Night"]
 
     # Fetch available foods for each dining hall and meal type
     for location in locations:
@@ -117,15 +113,12 @@ def send_food_recommendation(recipient_email, user_name, dietary_info, favorite_
 
 # Main block to iterate through all users in the database and send customized emails
 if __name__ == "__main__":
-    # Connect to the database
     conn = sqlite3.connect("umass_dining.db")
     cursor = conn.cursor()
 
-    # Fetch all users
     cursor.execute("SELECT name, email, diet_info, favorite_foods FROM users")
     users = cursor.fetchall()
 
-    # Iterate over each user and send recommendations
     for user in users:
         name, email, diet_info, favorite_foods = user
         print(f"Sending food recommendation to {name} at {email}...")
