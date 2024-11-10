@@ -21,7 +21,7 @@
     validators: zodClient(formSchema),
     onUpdated: ({ form: f }) => {
       if (f.valid) {
-        console.log(typeof f)
+        console.log(typeof f);
         toast.success(`You subscribed to the newsletter!`);
       } else {
         toast.error("Please fix the errors in the form.");
@@ -41,26 +41,46 @@
 </script>
 
 <form method="POST" use:enhance id="form">
+  <Form.Field {form} name="username">
+    <Form.Control let:attrs>
+      <Form.Label>Name</Form.Label>
+      <Input
+        {...attrs}
+        bind:value={$formData.username}
+        placeholder="john doe"
+      />
+    </Form.Control>
+    <Form.Description>What do we call you?.</Form.Description>
+    <Form.FieldErrors />
+  </Form.Field>
   <Form.Field {form} name="preferences">
     <Form.Control let:attrs>
       <Form.Label>Preferences</Form.Label>
-      <Textarea {...attrs} bind:value={$formData.preferences} placeholder="Burgers,fries..."/>
+      <Textarea
+        {...attrs}
+        bind:value={$formData.preferences}
+        placeholder="Burgers,fries..."
+      />
     </Form.Control>
-    <Form.Description
-      >Tell us what you like and dislike!</Form.Description
-    >
+    <Form.Description>Tell us what you like and dislike!</Form.Description>
     <Form.FieldErrors />
   </Form.Field>
-  <Form.Field {form} name="username">
+
+  <Form.Field {form} name="email">
     <Form.Control let:attrs>
       <Form.Label>E-Mail!</Form.Label>
-      <Input {...attrs} bind:value={$formData.username} placeholder="example@example.com" />
+      <Input
+        {...attrs}
+        bind:value={$formData.email}
+        placeholder="example@example.com"
+      />
     </Form.Control>
     <Form.Description
       >We will use this email to send you daily email newsletters.</Form.Description
     >
     <Form.FieldErrors />
   </Form.Field>
+
   <Form.Fieldset {form} name="allergens" class="space-y-0">
     <div class="mb-4">
       <Form.Legend class="text-base">Allergens</Form.Legend>

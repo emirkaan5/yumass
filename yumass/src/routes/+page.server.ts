@@ -22,7 +22,7 @@ export const actions: Actions = {
 
     try {
       // Replace with your actual API endpoint
-      const apiEndpoint = "http://127.0.0.1:8001/api/v1/submit-form";
+      const apiEndpoint = "http://54.172.151.84:80/api/v1/submit-form";
 
       // Replace with any required headers (e.g., Authorization)
       const response = await fetch(apiEndpoint, {
