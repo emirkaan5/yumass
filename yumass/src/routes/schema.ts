@@ -7,6 +7,10 @@ export const formSchema = z.object({
     message: "You have to select at least one allergen.",
   }),
   kosher: z.boolean().default(false).optional(),
+  vegan: z.boolean().default(false).optional(),
+  vegetarian: z.boolean().default(false).optional(),
+  halal: z.boolean().default(false).optional(),
+  preferences: z.string().min(0).max(300)
 });
  
 export type FormSchema = typeof formSchema;

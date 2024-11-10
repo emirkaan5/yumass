@@ -26,10 +26,13 @@
 		"tailwind-variants": "^0.2.1",
 		"tailwindcss": "^3.4.9",
 		"typescript": "^5.0.0",
+		"vaul-svelte": "^0.3.2",
 		"vite": "^5.0.3",
 		"zod": "^3.23.8"
 	},
 	"dependencies": {
+		"@unovis/svelte": "^1.5.0-beta.0",
+		"@unovis/ts": "^1.5.0-beta.0",
 		"mode-watcher": "^0.4.1",
 		"svelte-sonner": "^0.3.28"
 	}

@@ -18,8 +18,9 @@ export const actions: Actions = {
     form,
    });
   }
+  console.log("asdasdd")
   return {
-   form,
+   form
   };
  },
 };
