@@ -1,6 +1,7 @@
 import openai
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
+from DataBaseCreator.py import addUser
 
 import os
 import bleach
@@ -29,7 +30,12 @@ def submit_form():
         sanitized_allergens = [bleach.clean(a) for a in data.get('allergens', [])]
         
         # TODO: Add your logic here (e.g., store data, interact with other services)
-
+        name = bleach.clean(data.get('name', ''))
+        email = bleach.clean(data.get('email', ''))
+        diet_info = bleach.clean(data.get('diet_info', ''))
+        allergens = ', '.join([bleach.clean(a) for a in data.get('allergens', [])])
+        favorite_foods = ', '.join([bleach.clean(item) for item in data.get('favorite_foods', [])])
+        add_user(name, email, diet_info, allergens, favorite_foods)
         # Return a success response
         return jsonify({
             "message": "Form submitted successfully!",
