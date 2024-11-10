@@ -2,12 +2,25 @@ import openai
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from DataBaseCreator import add_user  # Assuming this is correctly adjusted
+from userRemove import remove_user
+from main import send_goodbye_email
 from main import first_send
 import os
 import bleach
 
+
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/api/v1/delete-email/<string:email>', methods=['DELETE'])
+def delete(email):
+    try:
+        send_goodbye_email(email)
+        remove_user(email)
+        return jsonify({"status":"success","message": f"Email {email} deleted."}),200
+    except Exception as e:
+        return jsonify({"status":"error","message":str(e)}),500
+@app.route('/api/v1/submit-form', methods=['POST', 'OPTIONS'])
 
 @app.route('/api/v1/submit-form', methods=['POST', 'OPTIONS'])
 def submit_form():
