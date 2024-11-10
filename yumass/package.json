@@ -6,6 +6,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
+		"deploy": "npm run build && npx gh-pages -d build -t true",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
@@ -17,6 +18,7 @@
 		"bits-ui": "^0.21.16",
 		"clsx": "^2.1.1",
 		"formsnap": "^1.0.1",
+		"gh-pages": "^6.2.0",
 		"paneforge": "^0.0.6",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
@@ -31,6 +33,7 @@
 		"zod": "^3.23.8"
 	},
 	"dependencies": {
+		"@sveltejs/adapter-static": "^3.0.6",
 		"@unovis/svelte": "^1.5.0-beta.0",
 		"@unovis/ts": "^1.5.0-beta.0",
 		"mode-watcher": "^0.4.1",
