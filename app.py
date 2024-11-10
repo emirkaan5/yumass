@@ -1,7 +1,7 @@
 import openai
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
-from DataBaseCreator.py import addUser
+from DataBaseCreator import add_user  # Assuming this is correctly adjusted
 
 import os
 import bleach
@@ -22,26 +22,39 @@ def submit_form():
     # Process the POST request
     try:
         data = request.get_json()
-        print(type(data))
-        print(str(data))
 
-        # Example: Sanitize input data
-        sanitized_items = [bleach.clean(item) for item in data.get('items', [])]
-        sanitized_allergens = [bleach.clean(a) for a in data.get('allergens', [])]
-        
-        # TODO: Add your logic here (e.g., store data, interact with other services)
-        name = bleach.clean(data.get('name', ''))
+        # Sanitize inputs
+        username = bleach.clean(data.get('username', ''))
         email = bleach.clean(data.get('email', ''))
-        diet_info = bleach.clean(data.get('diet_info', ''))
+
+        # Collect dietary preferences only if marked as True
+        diet_info = []
+        if data.get('kosher', False):
+            diet_info.append('kosher')
+        if data.get('vegan', False):
+            diet_info.append('vegan')
+        if data.get('vegetarian', False):
+            diet_info.append('vegetarian')
+        if data.get('halal', False):
+            diet_info.append('halal')
+        diet_info = ', '.join(diet_info) if diet_info else None  # Convert list to string or None if empty
+
+        # Process allergens and preferences
         allergens = ', '.join([bleach.clean(a) for a in data.get('allergens', [])])
-        favorite_foods = ', '.join([bleach.clean(item) for item in data.get('favorite_foods', [])])
-        add_user(name, email, diet_info, allergens, favorite_foods)
+        preferences = bleach.clean(data.get('preferences', ''))
+
+        # Store data in database
+        add_user(username, email, diet_info, allergens, preferences)
+
         # Return a success response
         return jsonify({
             "message": "Form submitted successfully!",
             "data": {
-                "items": sanitized_items,
-                "allergens": sanitized_allergens
+                "username": username,
+                "email": email,
+                "diet_info": diet_info,
+                "allergens": allergens,
+                "preferences": preferences
             }
         }), 200
 
@@ -54,4 +67,4 @@ def submit_form():
         }), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='8001')
+    app.run(host='0.0.0.0', port=8001)
