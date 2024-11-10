@@ -18,7 +18,7 @@ Hi,
 We're sorry to see you unsubscribe. Thank you for using our meal recommendation service, and we hope to serve you again in the future.
 
 Best regards,
-Your Meal Recommendation Team
+Yumass Team
 """
 
     # Set up the email message
