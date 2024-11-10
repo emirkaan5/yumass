@@ -9,6 +9,34 @@ openai.api_key = "lalaylaylay"
 gmail_user = "yummymass2024@gmail.com"
 gmail_password = "wotn xjwk zjhf rewr"
 
+def send_goodbye_email(email):
+    # Create the goodbye message
+    subject = "We're sad to see you go!"
+    body = """\
+Hi,
+
+We're sorry to see you unsubscribe. Thank you for using our meal recommendation service, and we hope to serve you again in the future.
+
+Best regards,
+Your Meal Recommendation Team
+"""
+
+    # Set up the email message
+    msg = MIMEMultipart()
+    msg["From"] = gmail_user
+    msg["To"] = email
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body, "plain"))
+
+    try:
+        # Send the goodbye email
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(gmail_user, gmail_password)
+            server.sendmail(gmail_user, email, msg.as_string())
+            print(f"Goodbye email sent to {email}")
+    except Exception as e:
+        print(f"Failed to send goodbye email. Error: {e}")
+
 def get_filtered_foods(email, meal_type, location):
     conn = sqlite3.connect("umass_dining.db")
     cursor = conn.cursor()
@@ -94,7 +122,7 @@ def send_food_recommendation(recipient_email, user_name, dietary_info, favorite_
     # Construct email content
     subject = "Today's Personalized Food Recommendations"
     body = f"Hi {user_name},\n\nHere are your personalized food recommendations for today based on your dietary preferences and favorite foods:\n\n"
-    body += chatgpt_recommendations + "\n\nEnjoy your meals!\n\nBest regards,\nYour Meal Recommendation Team"
+    body += chatgpt_recommendations + "\n\nEnjoy your meals!\n\nBest regards,\nYumass Team"
 
     # Send the email
     msg = MIMEMultipart()
@@ -112,7 +140,7 @@ def send_food_recommendation(recipient_email, user_name, dietary_info, favorite_
         print(f"Failed to send email. Error: {e}")
 
 # Main block to iterate through all users in the database and send customized emails
-if send_recommendations_to_all_users()
+def send_recommendations_to_all_users()
     conn = sqlite3.connect("umass_dining.db")
     cursor = conn.cursor()
 
@@ -125,3 +153,43 @@ if send_recommendations_to_all_users()
         send_food_recommendation(email, name, diet_info, favorite_foods)
 
     conn.close()
+    
+def first_send(recipient_email, user_name, dietary_info, favorite_foods):
+    dining_halls = {}
+    locations = ["worcester", "berkshire", "franklin", "hampshire"]
+
+    # Define meal types based on location
+    def get_meal_types(location):
+        if location.lower() in ["franklin", "hampshire"]:
+            return ["Lunch", "Dinner"]
+        return ["Lunch", "Dinner", "Late Night"]
+
+    # Fetch available foods for each dining hall and meal type
+    for location in locations:
+        dining_halls[location.capitalize()] = {}
+        meal_types = get_meal_types(location)
+        for meal_type in meal_types:
+            dining_halls[location.capitalize()][meal_type.lower()] = get_filtered_foods(recipient_email, meal_type, location)
+
+    # Get ChatGPT recommendations
+    chatgpt_recommendations = get_chatgpt_recommendations(user_name, dietary_info, favorite_foods, dining_halls)
+
+    # Construct email content
+    subject = "Welcome to your Personalized Food Recommendation"
+    body = f"Hi {user_name},\n\nWelcome to our newsletter. Here are your personalized food recommendations for today based on your dietary preferences and favorite foods:\n\n"
+    body += chatgpt_recommendations + "\n\nEnjoy your meals!\n\nBest regards,\Yumass Team"
+
+    # Send the email
+    msg = MIMEMultipart()
+    msg["From"] = gmail_user
+    msg["To"] = recipient_email
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body, "plain"))
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(gmail_user, gmail_password)
+            server.sendmail(gmail_user, recipient_email, msg.as_string())
+            print(f"Food recommendation email sent to {recipient_email}")
+    except Exception as e:
+        print(f"Failed to send email. Error: {e}")

@@ -1,4 +1,5 @@
 import sqlite3
+from main import send_goodbye_email
 
 def remove_user(email):
     # Connect to the SQLite database
@@ -19,4 +20,5 @@ def remove_user(email):
     conn.close()
 
 # Example usage
+send_goodbye_email("agenc@umass.edu")
 remove_user("agenc@umass.edu")

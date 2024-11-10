@@ -2,7 +2,7 @@ import openai
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from DataBaseCreator import add_user  # Assuming this is correctly adjusted
-
+from main import first_send
 import os
 import bleach
 
@@ -45,6 +45,7 @@ def submit_form():
 
         # Store data in database
         add_user(username, email, diet_info, allergens, preferences)
+        first_send(email,username,diet_info,preferences)
 
         # Return a success response
         return jsonify({
