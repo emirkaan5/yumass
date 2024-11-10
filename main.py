@@ -112,7 +112,7 @@ def send_food_recommendation(recipient_email, user_name, dietary_info, favorite_
         print(f"Failed to send email. Error: {e}")
 
 # Main block to iterate through all users in the database and send customized emails
-if __name__ == "__main__":
+if send_recommendations_to_all_users()
     conn = sqlite3.connect("umass_dining.db")
     cursor = conn.cursor()
 
