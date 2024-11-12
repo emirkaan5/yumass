@@ -7,7 +7,7 @@ from email.mime.multipart import MIMEMultipart
 openai.api_key = "lalaylaylay"
 # Gmail credentials
 gmail_user = "yummymass2024@gmail.com"
-gmail_password = "wotn xjwk zjhf rewr"
+gmail_password = "putYourOwn"
 
 def send_goodbye_email(email):
     # Create the goodbye message
@@ -140,7 +140,7 @@ def send_food_recommendation(recipient_email, user_name, dietary_info, favorite_
         print(f"Failed to send email. Error: {e}")
 
 # Main block to iterate through all users in the database and send customized emails
-def send_recommendations_to_all_users()
+def send_recommendations_to_all_users():
     conn = sqlite3.connect("umass_dining.db")
     cursor = conn.cursor()
 

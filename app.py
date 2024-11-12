@@ -20,7 +20,6 @@ def delete(email):
         return jsonify({"status":"success","message": f"Email {email} deleted."}),200
     except Exception as e:
         return jsonify({"status":"error","message":str(e)}),500
-@app.route('/api/v1/submit-form', methods=['POST', 'OPTIONS'])
 
 @app.route('/api/v1/submit-form', methods=['POST', 'OPTIONS'])
 def submit_form():
